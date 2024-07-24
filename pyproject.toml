@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "nevermined-eg"
+version = "0.1.0"
+description = ""
+authors = ["evangriffiths <egriffiths93@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+modal = "^0.63.86"
+payments-py = "^0.2.4"
+pydantic-settings = "^2.3.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
