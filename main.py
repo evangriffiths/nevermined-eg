@@ -10,10 +10,6 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 Headers: TypeAlias = Dict[str, str]
 
-BASIC_SERVICE_CHARGE = 1
-PREMIUM_SERVICE_CHARGE = 10
-FLAT_SERVICE_CHARGE = 2
-
 
 def get_subscription_balance(
     payments: Payments,
@@ -134,8 +130,9 @@ if __name__ == "__main__":
     ### 0. Define some endpoint to paywall with Nevermined, import here, and
     ###    start the server
     ###
-    from my_endpoint import app
+    from my_endpoint import BASIC_SERVICE_CHARGE, PREMIUM_SERVICE_CHARGE, app
 
+    FLAT_SERVICE_CHARGE = 2
     app_definition_path = "./my_endpoint.py"
 
     print("Starting server...")
@@ -233,11 +230,17 @@ if __name__ == "__main__":
             )
 
             # Test the variable service charge feature
-            # TODO this is not working -- always charges FLAT_SERVICE_CHARGE
-            # if name:
-            #     assert new_balance == balance - PREMIUM_SERVICE_CHARGE
-            # else:
-            #     assert new_balance == balance - BASIC_SERVICE_CHARGE
+            # TODO not working as expected -- always charges FLAT_SERVICE_CHARGE
+            if name:
+                # assert new_balance == balance - PREMIUM_SERVICE_CHARGE
+                assert response.headers["NVMCreditsConsumed"] == str(
+                    PREMIUM_SERVICE_CHARGE
+                )
+            else:
+                # assert new_balance == balance - BASIC_SERVICE_CHARGE
+                assert response.headers["NVMCreditsConsumed"] == str(
+                    BASIC_SERVICE_CHARGE
+                )
             assert balance - new_balance == FLAT_SERVICE_CHARGE
 
             balance = new_balance
