@@ -17,7 +17,7 @@ CONSUMER_API_KEY='...'
 CONSUMER_ADDRESS='...'
 ```
 
-3. For the consumer, get some free USDC on Arbitrum Sepolina at https://faucet.circle.com/
+3. For the consumer, get some free USDC on Arbitrum Sepolia at https://faucet.circle.com/
 4. Install dependencies
 
 ```bash
