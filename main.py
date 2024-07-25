@@ -164,7 +164,6 @@ if __name__ == "__main__":
         subscription_did = subscription_response.json()["did"]
 
         # Create service
-        SERVICE_CREDIT_CHARGE = 1  # Service costs 1 credit to run
         print("Creating service...")
         service_response = creator_payments.create_service(
             subscription_did=subscription_did,
@@ -176,7 +175,7 @@ if __name__ == "__main__":
             open_api_url=modal_server.openapi_url,
             min_credits_to_charge=BASIC_SERVICE_CHARGE,
             max_credits_to_charge=PREMIUM_SERVICE_CHARGE,
-            amount_of_credits=2,  # TODO
+            amount_of_credits=FLAT_SERVICE_CHARGE,  # TODO
         )
         service_response.raise_for_status()
 
@@ -195,8 +194,8 @@ if __name__ == "__main__":
             subscription_did=subscription_did,
         )
 
-        # So we can run the service twice
-        MIN_CREDIT_BALANCE = 2 * SERVICE_CREDIT_CHARGE
+        # So we can run all modes of the service
+        MIN_CREDIT_BALANCE = BASIC_SERVICE_CHARGE + PREMIUM_SERVICE_CHARGE
 
         balance = init_balance
         while balance < MIN_CREDIT_BALANCE:
