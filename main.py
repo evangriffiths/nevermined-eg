@@ -166,13 +166,13 @@ if __name__ == "__main__":
             subscription_did=subscription_did,
             name="Test",
             description="A test service",
-            service_charge_type="fixed",
+            service_charge_type="dynamic",
             auth_type="none",
             endpoints=[{"get": modal_server.url}],
             open_api_url=modal_server.openapi_url,
             min_credits_to_charge=BASIC_SERVICE_CHARGE,
             max_credits_to_charge=PREMIUM_SERVICE_CHARGE,
-            amount_of_credits=FLAT_SERVICE_CHARGE,  # TODO
+            amount_of_credits=0,  # Placeholder, unused TODO
         )
         service_response.raise_for_status()
 
@@ -230,18 +230,10 @@ if __name__ == "__main__":
             )
 
             # Test the variable service charge feature
-            # TODO not working as expected -- always charges FLAT_SERVICE_CHARGE
             if name:
-                # assert new_balance == balance - PREMIUM_SERVICE_CHARGE
-                assert response.headers["NVMCreditsConsumed"] == str(
-                    PREMIUM_SERVICE_CHARGE
-                )
+                assert new_balance == balance - PREMIUM_SERVICE_CHARGE
             else:
-                # assert new_balance == balance - BASIC_SERVICE_CHARGE
-                assert response.headers["NVMCreditsConsumed"] == str(
-                    BASIC_SERVICE_CHARGE
-                )
-            assert balance - new_balance == FLAT_SERVICE_CHARGE
+                assert new_balance == balance - BASIC_SERVICE_CHARGE
 
             balance = new_balance
 
